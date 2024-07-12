@@ -23,7 +23,7 @@ int main(int argc, char* argv[]){
     /* Control of the correct 3 arguments, the name of the compiled program, string of the input file and finally 
     the string of the output file, is SO IMPORTANT DO THIS CONTROL to stop the execution of command errors */
     if(argc != 3){
-        printf("Need executable input and output files.\n");
+        printf("Need executable, input and output files.\n");
         // Use of exit program function from stdlib
         exit(1);
     }
