@@ -2,20 +2,20 @@
  * Author: Miller Quintero
  * Date: Jul 11, 2024
  * Title: Week 4 Assigment
- * Program: This program is a solution for the problem 2, creates a structure of 2 numbers to represent a rational number. it use files
+ * Program: This program is a solution for the problem 2, creates a structure of 2 numbers to represent a rational number. It use files
 */
 
-#include <stdio.h>      // Library to use standard inputs and outputs
-#include <stdint.h>     // Library to use integers defined by bits size
-#include <stdlib.h>     // Library to can use the routines malloc and free, as well as pseudo-random generator functions
-#include <stdbool.h>    // Library that brings boolean data types
+#include <stdio.h>      // Library for standard input and output
+#include <stdint.h>     // Library for fixed-width integer types
+#include <stdlib.h>     // Library for memory allocation and open files
+#include <stdbool.h>    // Library for boolean data types
 
 typedef struct{
     long int numerator;
     long int denominator;
 }rational;
 
-/* Headers of Proto-type functions */
+/* Function prototypes */
 void readFileAndCalculate(const char* nameFile);
 rational addRationals(rational r1, rational r2);
 rational subtractRationals(rational r1, rational r2);
@@ -24,7 +24,7 @@ rational divideRationals(rational r1, rational r2);
 
 
 int main(void){
-    // Here, we write tha name of the file, if the code and file is on the same directoy, in other case would be necessary specify the path
+    // Specify the name of the file. If the code and file is in the same directory, this is sufficient. Otherwise, specify the path
     readFileAndCalculate("Week4.txt");
     return 0;
 }
@@ -32,6 +32,10 @@ int main(void){
 /** Function that reads the file, saves the data and calculates the sum and average */
 void readFileAndCalculate(const char* nameFile){
     FILE* ptrFile = fopen(nameFile, "r");
+    if(ptrFile == NULL){
+        perror("Error opening file");
+        return;
+    }
     rewind(ptrFile);
 
     int16_t size = 0;
@@ -46,9 +50,9 @@ void readFileAndCalculate(const char* nameFile){
     rational* array = malloc(sizeof(rational)*size);
 
     uint16_t index = 0;
-    // The for cicle is from 0 to less than 2*size, because every rational element is composed of 2 integers
+    // The for loop runs from 0 to less than 2*size, because each rational element is composed of 2 integers
     for(uint16_t i = 0; i < 2*size; i++){
-        // If we have a successful read... (Is neccesary that the condition be fscanf() == 1, to avoid incorrect reads)
+        // If we have a successful read... (It is neccesary that the condition be fscanf() == 1, to avoid incorrect reads)
         if(fscanf(ptrFile,"%d",&tempValue) == 1){
             if(!rationalIndicator){
                 (*(array+index)).numerator = tempValue;
@@ -61,7 +65,7 @@ void readFileAndCalculate(const char* nameFile){
                 index++;
             }
         }
-        // In case that the size parameter be greater than the amount of data, we complete with 1
+        // In case that the size parameter be greater than the amount of data, complete with 1
         else{
             if(!rationalIndicator){
                 (*(array+index)).numerator = 1;
@@ -76,7 +80,7 @@ void readFileAndCalculate(const char* nameFile){
     }
     fclose(ptrFile);
 
-    // Here, we initialize the sum as the first rational, because if we initiliaze it as zero, it will anull the sum and average
+    // Initialize the sum as the first rational, because if we initiliaze it as zero, it will nullify the sum and average
     rational sum = *(array);
     // And sum with the rest of rationals
     for(uint16_t j = 0; j < size-1; j++){

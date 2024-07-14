@@ -7,7 +7,6 @@
 #include <stdio.h>      // Library to use standard inputs and outputs
 #include <stdint.h>     // Library to use integers defined by bits size
 #include <stdlib.h>     // Library to can use the routines malloc and free
-#include <ctype.h>
 #include <stdbool.h>
 
 /*  THE MOST IMPORTANT NOTE: The pointers in C have a size according to the system architecture,
@@ -25,7 +24,7 @@ typedef struct list{
 }list;
 
 /* Header proto-types functions */
-void printList(list* ADT, char* title);
+void printList(list* ADT, const char* title);
 bool isEmpty(const list* l);
 
 int main(void){
@@ -39,7 +38,7 @@ int main(void){
     return 0;
 }
 
-void printList(list* ADT, char* title){
+void printList(list* ADT, const char* title){
     printf("%s\n", title);
     // This is equivalent to write ADT != NULL
     while(!isEmpty(ADT)){
