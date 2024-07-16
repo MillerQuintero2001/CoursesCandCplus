@@ -1,9 +1,10 @@
 /** 
  * Author: Miller Quintero
- * Date: Jun 13, 2024
- * Title: Advance Processing List ADT
- * Program: This program is an advance aplication of ADT(Abstract Data Type) lists
+ * Date: Jul 15, 2024
+ * Title: Delete Function List ADT
+ * Program: This program is an advance aplication of ADT(Abstract Data Type) lists, that includes the delete element function
 */
+
 #include <stdio.h>      // Library to use standard inputs and outputs
 #include <stdint.h>     // Library to use integers defined by bits size
 #include <stdlib.h>     // Library to can use the routines malloc and free, as well as pseudo-random generator functions
@@ -11,25 +12,18 @@
 #include <time.h>       // Library to use current time as seed generator
 #include <math.h>       // Library with basic math functions
 #include <assert.h>     // Library for the asserts control program
+#include <ctype.h>      // Library for characters mapping
 
-/*  THE MOST IMPORTANT NOTE: The pointers in C have a size according to the system architecture,
-    in my case I have a x64 bits computer, for that reason, the pointers with my compiler have
-    a size of 8 bytes (1 byte = 8 bits and 8x8=64), now there is an important concept know as 
-    padding in C, which says that the compiler in order to have an optimized access and alignment
-    to the structure and its data, stuffing the structure with other bytes, for that reason the 
-    next structure have an integer of 4 bytes, a pointer of 8 bytes, but has a size of 16 bytes
-    because there are 4 padding bytes more to put the pointer aligned. 
-*/
 
 typedef struct list{
     int data;
     struct list* next; // To can define a pointer to the structure itself, is necessary write struct tagName
 }list;
 
-/* Header proto-types functions */
+/* Proto-types functions */
 void fillArrayData(int* array, uint16_t size);
 void printArrayData(int* array,uint16_t size);
-void printList(list* ADT, const char* title);
+void printList(list* h, const char* title);
 list* createList(int d);
 list* addToFrontList(list* h, int d);
 list* arrayToList(int* array, uint16_t size);
@@ -37,6 +31,8 @@ bool isEmpty(const list* l);
 uint16_t counterList(list* l);
 void concatenateList(list** h1, list** h2);
 void insertInsideList(list* p1, list* p2, list* element);
+void deleteElementList(list* elem, list** prev, list** h);
+void deleteFullList(list* h);
 
 int main(void){
     uint16_t size1;
@@ -51,50 +47,27 @@ int main(void){
 
     // Pseudo-random seed to generate numbers
     srand(time(NULL));
-    // Fill and print the array with the pseudo-random data
+    // Fill and the array with the pseudo-random data
     fillArrayData(array1, size1);
-    printArrayData(array1,size1);
-    printf("\n");
     fillArrayData(array2, size2);
-    printArrayData(array2,size2);
 
-    /* Declare and create the pointer to list, is important to know that if we try to manipulate or access to a pointer 
-    that is only declare but not initialize, this gonna cause an assert */
-    list* l1;
-    list* l2;
-    // List 3 will be a temporaly empty list
-    list* l3 = NULL;
+    list* h1 = arrayToList(array1, size1);
+    list* h2 = arrayToList(array2, size2);
 
-    l1 = arrayToList(array1,size1);
-    l2 = arrayToList(array2,size2);
+    printList(h1, "\nThe list 1 is:");
+    printList(h2, "\nThe list 2 is:");
 
-    printList(l1, "\nThe full list 1 is:");
-    printf("\nThe amount of elements in list 1 is: %hu\n", counterList(l1));
-    printList(l2, "\nThe full list 2 is:");
-    printf("\nThe amount of elements in list 2 is: %hu\n", counterList(l2));
-    printList(l3, "\nThe full list 3 is:");
-    printf("\nThe amount of elements in list 3 is: %hu\n", counterList(l3));
+    concatenateList(&h1,&h2);
+    printList(h1, "\nThe list 1 is:");
 
-    concatenateList(&l3,&l2);
-    printf("After concatenate list 3 empty and list 2 in the first called into the function, we have:\n");
-    printList(l3,"\nThe full list 3 is:");
-    printf("\nThe amount of elements in list 3 is: %hu\n", counterList(l3));
+    // Here, the first element will be delete
+    deleteElementList(h1, &h1, &h1);
+    printList(h1, "\nThe list 1 after delete the first element is:");
 
-    concatenateList(&l1,&l3);
-    printf("After concatenate list 1 and list 3 in the first called into the function, we have:\n");
-    printList(l1,"\nThe full list 1 is:");
-    printf("\nThe amount of elements in list 1 is: %hu\n", counterList(l1));
-
-    /* Let's free the heap memory, isn't really necessary in this case, 
-    because always at the end of a program, the system free it automatically */
-    free(l1);
-    free(l2);
-    /* If we try to free the list 3, the program will be abort, because this would be a double free
-    due to the list 3 have the same pointer of the list 2, and this list was already free */
-    //free(l3);
-    free(array1);
-    free(array2);
-
+    // Remember the function needs the element to delete, the pointer to the previous element pointer and the pointer to head pointer
+    deleteElementList(h2->next->next, &(h2->next), &h1);
+    printList(h1, "\nThe list 1 after delete the next element to h2->next is:");
+    printf("\n");
     return 0;
 }
 
@@ -118,12 +91,12 @@ void printArrayData(int* array,uint16_t size){
 }
 
 /** Functions that prints the list ADT */
-void printList(list* ADT, const char* title){
+void printList(list* h, const char* title){
     printf("%s\n", title);
     // This is equivalent to write ADT != NULL
     uint16_t c = 1;
-    while(!isEmpty(ADT)){
-        printf("%d\t", ADT->data);
+    while(!isEmpty(h)){
+        printf("%d\t", h->data);
         if(c%10 == 0){
             printf("\n");
         }
@@ -131,7 +104,7 @@ void printList(list* ADT, const char* title){
             ; //Nop action
         }
         // This is so important
-        ADT = ADT->next;
+        h = h->next;
         c++;
     }
 }
@@ -196,4 +169,30 @@ void insertInsideList(list* p1, list* p2, list* element){
     assert(p1->next==p2);
     p1->next = element;
     element->next = p2;
+}
+
+/** Function that deletes an element of the linked list, use pointers to the pointers prev and head related 
+ * with the element, to secure that the call is by reference with that pointers */
+void deleteElementList(list* elem, list** prev, list** h){
+    // Check if the previous list element is the head
+    if(*h == *prev){
+        (*h) = elem->next;
+    }
+    else{
+        (*prev)->next = elem->next;
+    }
+    free(elem);
+}
+
+/** Function to delete the full linked list with recursivity */
+void deleteFullList(list* h){
+    list* temp;
+    if(!isEmpty(h)){
+        temp = h;
+        deleteFullList(h = h->next);
+        free(temp);
+    }
+    else{
+        ;   // NOP
+    }
 }

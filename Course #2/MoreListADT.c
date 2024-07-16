@@ -27,7 +27,7 @@ typedef struct list{
 
 /* Header proto-types functions */
 void fillArrayData(int* array, uint16_t size);
-void printArrayData(int* array,uint16_t size);
+void printArrayData(int* array, uint16_t size);
 void printList(list* ADT, char* title);
 list* createList(int d);
 list* addList(list* h, int d);
@@ -43,7 +43,7 @@ int main(void){
 
     // Pseudo-random seed to generate numbers
     srand(time(NULL));
-    // Fill and print print the array with the pseudo-random data
+    // Fill and print the array with the pseudo-random data
     fillArrayData(array, size);
     printArrayData(array,size);
 
@@ -68,13 +68,13 @@ int main(void){
 void fillArrayData(int* array, uint16_t size){
     for(uint16_t j = 0; j < size; j++){
         // Module the pseudo-random value, to get something in the correct range of 16 bits
-        // The rand function only generates positive integers, for that reason we multiply for (-1)^j
-        *(array+j) = (int)pow(-1,j)*rand()%(uint16_t)(pow(2,16)-1);    
+        // The rand function only generates positive integers, for that reason we sum the same sentence to have some negatives
+        *(array+j) = rand()%(uint16_t)(pow(2,16)-1) - (rand()%(uint16_t)(pow(2,16)-1));    
     }
 }
 
 /** Function to print the array with its data */
-void printArrayData(int* array,uint16_t size){
+void printArrayData(int* array, uint16_t size){
     for(uint16_t index = 0; index < size; index++){
         printf("%d\t", *(array+index));
         if((index+1)%10 == 0){
@@ -96,7 +96,7 @@ void printList(list* ADT, char* title){
         else{
             ; //Nop action
         }
-        // This is so important
+        // This is so important, to get the next list element
         ADT = ADT->next;
         c++;
     }
