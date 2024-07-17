@@ -32,7 +32,7 @@ uint16_t counterList(list* l);
 void concatenateList(list** h1, list** h2);
 void insertInsideList(list* p1, list* p2, list* element);
 void deleteElementList(list* elem, list** prev, list** h);
-void deleteFullList(list* h);
+void deleteFullList(list** h);
 
 int main(void){
     uint16_t size1;
@@ -58,16 +58,30 @@ int main(void){
     printList(h2, "\nThe list 2 is:");
 
     concatenateList(&h1,&h2);
-    printList(h1, "\nThe list 1 is:");
+    printList(h1, "\nAfter concatenate h1 and h2, the list 1 is:");
 
-    // Here, the first element will be delete
-    deleteElementList(h1, &h1, &h1);
+    // Here, the second element will be delete
+    deleteElementList(h1->next, &h1, &h1);
+    printList(h1, "\nThe list 1 after delete the second element is:");
+
+    // Here, the first element will be delete, due to there is no elment before the first, the argument "prev" is NULL
+    deleteElementList(h1, NULL, &h1);
     printList(h1, "\nThe list 1 after delete the first element is:");
 
     // Remember the function needs the element to delete, the pointer to the previous element pointer and the pointer to head pointer
     deleteElementList(h2->next->next, &(h2->next), &h1);
     printList(h1, "\nThe list 1 after delete the next element to h2->next is:");
     printf("\n");
+
+    // deleteFullList(&h2);
+    // printList(h2, "\nThe list 2 all delete is:");
+
+    /* NOTE: We can't delete full list h2 and print h1 after, because the reference has lost, we should
+    go to the end of the h1 and asiggn NULL to the next element*/
+    deleteFullList(&h1);
+    printList(h1, "\nAnd the list 1 all delete is:");
+    printf("h1 #elements is: %u.\n", counterList(h1));
+
     return 0;
 }
 
@@ -95,18 +109,24 @@ void printList(list* h, const char* title){
     printf("%s\n", title);
     // This is equivalent to write ADT != NULL
     uint16_t c = 1;
-    while(!isEmpty(h)){
-        printf("%d\t", h->data);
-        if(c%10 == 0){
-            printf("\n");
-        }
-        else{
+    if(!isEmpty(h)){
+        while(!isEmpty(h)){
+            printf("%d\t", h->data);
+            if(c%10 == 0){
+                printf("\n");
+            }
+            else{
             ; //Nop action
+            }
+            // This is so important
+            h = h->next;
+            c++;
         }
-        // This is so important
-        h = h->next;
-        c++;
     }
+    else{
+        printf("Empty.\n");
+    }
+
 }
 
 /* Function that creates the list with a first data */
@@ -174,9 +194,13 @@ void insertInsideList(list* p1, list* p2, list* element){
 /** Function that deletes an element of the linked list, use pointers to the pointers prev and head related 
  * with the element, to secure that the call is by reference with that pointers */
 void deleteElementList(list* elem, list** prev, list** h){
-    // Check if the previous list element is the head
-    if(*h == *prev){
-        (*h) = elem->next;
+    // If the previous element is NULL, is because this is the head
+    if((prev == NULL)||(*prev == NULL)){
+        *h = elem->next;
+    }
+    // Check if the previous list element is the head (this is the specific case for 2th element)
+    else if(*h == *prev){
+        (*h)->next = elem->next;
     }
     else{
         (*prev)->next = elem->next;
@@ -185,14 +209,15 @@ void deleteElementList(list* elem, list** prev, list** h){
 }
 
 /** Function to delete the full linked list with recursivity */
-void deleteFullList(list* h){
+void deleteFullList(list** h){
     list* temp;
-    if(!isEmpty(h)){
-        temp = h;
-        deleteFullList(h = h->next);
+    if(!isEmpty(*h)){
+        temp = *h;
+        deleteFullList(&((*h)->next));
         free(temp);
     }
     else{
         ;   // NOP
     }
+    *h = NULL;
 }
