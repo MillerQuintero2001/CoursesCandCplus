@@ -1,6 +1,18 @@
 {
     "files.associations": {
+        "Speed.C": "cpp",
+        "float.h": "c",
+        "stdint.h": "c",
+        "stdio.h": "c",
+        "__fpos_t.h": "c",
+        "types.h": "c",
+        "stdlib.h": "c",
+        "time.h": "c",
+        "stdbool.h": "c",
         "math.h": "c",
-        "ctype.h": "c"
+        "ctype.h": "c",
+        "iostream": "cpp",
+        "ostream": "cpp",
+        "assert.h": "c"
     }
 }

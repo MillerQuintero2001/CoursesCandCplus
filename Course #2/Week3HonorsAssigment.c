@@ -42,7 +42,7 @@ void deleteRepeatElements(dlist** h);
 
 int main(void){
     srand(time(NULL));
-    int* array = malloc(sizeof(dlist)*SIZE);
+    int* array = (int*)malloc(sizeof(dlist)*SIZE);
     fillArrayData(array, SIZE);
 
     dlist* head = arrayToList(array, SIZE);
@@ -176,29 +176,22 @@ void deleteElementList(dlist* elem, dlist** h){
     if (elem == NULL){
         return;
     } 
-
     // Else if the element to be deleted is the head
     else if (*h == elem) {
         *h = elem->next;
         (*h)->prev = NULL;
     }
-
-    // In other case
+    // Else, we have any other element
     else{
-        // Change next only if the node to be deleted is not the last node
-        if (!isEmpty(elem->next)) {
+        // The next of the previous will be the next of the element to be deleted
+        (elem->prev)->next = elem->next;
+        // If the element is not the last (elem->next wil not be NULL), we can set the previous
+        if(!isEmpty(elem->next)){
             (elem->next)->prev = elem->prev;
         }
+        // Otherwise, there are no actions
         else{
-            ;   // NOP
-        }
-
-        // Change prev only if the node to be deleted is not the first node
-        if (elem->prev != NULL) {
-            (elem->prev)->next = elem->next;
-        }
-        else{
-            ;   // NOP
+            ;  // NOP      
         }
     }
     // In any case, we free the memoery allocated by the pointer

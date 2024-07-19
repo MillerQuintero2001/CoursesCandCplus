@@ -20,7 +20,7 @@ typedef struct list{
 }list;
 
 /* Definition of prototypes functions */
-void printList(list* ADT, char* title);
+void printList(list* ADT, const char* title);
 list* createList(int16_t d);
 list* addList(list* l, int16_t d);
 list* arrayToList(int* array, int16_t size);
@@ -42,7 +42,7 @@ int main(void){
     // From 1 to 100, we have 99 new numbers
     for (uint8_t i = 1; i < 100; i++){
         // We add a random integer with random sign into the list
-        list100data = addList(list100data, (uint16_t)pow(-1, RANDOM_NUMBER)*RANDOM_NUMBER);
+        list100data = addList(list100data, ((uint16_t)pow(-1.0, RANDOM_NUMBER))*RANDOM_NUMBER);
     }
 
     // Now with the data generated, we are going to sort the list by bubble sort
@@ -63,7 +63,7 @@ int main(void){
 }
 
 /** Functions that prints the list ADT */
-void printList(list* ADT, char* title){
+void printList(list* ADT, const char* title){
     printf("%s\n", title);
     // This is equivalent to write ADT != NULL
     uint16_t c = 1;
@@ -83,7 +83,7 @@ void printList(list* ADT, char* title){
 
 /* Function that creates the list with a first data */
 list* createList(int16_t d){
-    list* head = malloc(sizeof(list));
+    list* head = (list*)malloc(sizeof(list));
     head->data = d;
     head->next = NULL;
     return head;

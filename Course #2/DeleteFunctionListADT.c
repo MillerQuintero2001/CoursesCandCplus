@@ -42,8 +42,8 @@ int main(void){
     printf("Now, write how many elements should have the list 2 to convert in ADT, no much more than 65535: ");
     scanf("%hu", &size2);
     // Assign dynamic memory for the custom size array
-    int* array1 = malloc(sizeof(int)*size1);
-    int* array2 = malloc(sizeof(int)*size2);
+    int* array1 = (int*)malloc(sizeof(int)*size1);
+    int* array2 = (int*)malloc(sizeof(int)*size2);
 
     // Pseudo-random seed to generate numbers
     srand(time(NULL));
@@ -131,7 +131,7 @@ void printList(list* h, const char* title){
 
 /* Function that creates the list with a first data */
 list* createList(int d){
-    list* head = malloc(sizeof(list));
+    list* head = (list*)malloc(sizeof(list));
     head->data = d;
     head->next = NULL;
     return head;

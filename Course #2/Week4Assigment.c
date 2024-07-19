@@ -47,7 +47,7 @@ void readFileAndCalculate(const char* nameFile){
     // The first number in the file indicates the size of the array and must be positive
     fscanf(ptrFile,"%hd", &size);
     size = abs(size);
-    rational* array = malloc(sizeof(rational)*size);
+    rational* array = (rational*)malloc(sizeof(rational)*size);
 
     uint16_t index = 0;
     // The for loop runs from 0 to less than 2*size, because each rational element is composed of 2 integers
