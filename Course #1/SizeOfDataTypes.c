@@ -11,7 +11,6 @@
 #include <float.h> 
 
 int main(void){
-
     printf("%lu\n",sizeof(uint8_t));
     printf("%lu\n",sizeof(uint16_t));
     printf("%lu\n",sizeof(uint32_t));

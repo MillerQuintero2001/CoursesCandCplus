@@ -20,7 +20,8 @@ int main(void){
     const uint16_t size = 1000;
     uint8_t grades[size];
     int i;
-    srand(time(NULL)); // Generator seed of aleatories numbers
+    // Generator seed of pseudo-random numbers
+    srand(time(NULL)); 
     /* Fill array of grades with aleatories numbers between 0 to 100*/
     for(i = 0; i < size; i++){
         grades[i] = (uint8_t)abs(rand()%100);

@@ -4,13 +4,15 @@
  * Program: This program count numbers, letters, blanks and special characters
 */
 
+// The instruction to execute is './fileOut<archive.txt'
+
 #include <stdio.h>
 
 int main(void) {
     int blanks = 0, digits = 0, letters = 0, others = 0;
-    int c;  // Variable para almacenar el valor entero del carácter
+    int c;  // Variable to stores character integer value
 
-    // El EOF significa End of the File, y en Linux se especifíca con Ctrl+D
+    // EOF means 'End of the File', and in Linux is specified with Ctrl+D
     while ((c = getchar()) != EOF) {
         if (c == ' ') {
             ++blanks;

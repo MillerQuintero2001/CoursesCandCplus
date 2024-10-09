@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-/** Función principal */
+/** Main function */
 int main(void){
-    printf("Hola Mundo \n");
+    printf("Hello world.\n");
     return 0;
 }

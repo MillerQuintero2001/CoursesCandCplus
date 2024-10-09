@@ -5,15 +5,14 @@
 */
 
 #include <stdio.h>
-#define PI 3.14159  //Directiva de pre-procesamiento
+#define PI 3.14159  //Pre-processing directive
 
 
-
-/** Funcion principal*/
+/** Main function */
 int main (void){
-    // Inicializo variables
+    // Initialize variables
     double area = 0.0, radius = 0.0;
-    //Tareas    
+    //Tasks    
      printf("Enter radius in meters: ");
      scanf("%lf", &radius);
      area = PI * radius*radius;

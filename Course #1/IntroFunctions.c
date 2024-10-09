@@ -6,18 +6,17 @@
 
 #include <stdio.h>
 
-/* Definición de prototipos de funciones */
-
-// Observemos que solo es necesario el tipo de argumento, no es obligatorio el "nombre" de la variable
+/* Functions proto-types definitions */
+// Note that only the type of argument is required, variable name isn't mandatory
 double square(double);
 double cube(double);
 
 int main(void){
-    // Declaramos 3 variables int, una de ellas "how_many" ya inicializada en 0
+    // Declaration of 3 integer variables, one of them, 'how many' is already initialize in 0
     int how_many = 0,i,j;
-    printf("I want square and cube for 1 to n, where n is :");
+    printf("I want square and cube for 1 to n, where n is: ");
     scanf("%d", &how_many);
-    printf("\n square and cubes by interval of 0.1\n");
+    printf("square and cubes by interval of 0.1\n");
 
     for(i = 1; i < how_many; i++){
         for(j = 0; j <= 10; j++){

@@ -16,8 +16,8 @@ int main (void){
     scanf("%lf", &fahrenheit);
     //Tasks  
     celcius= (fahrenheit - 32.00f)*(5.00f/9.00f); //Conversion
-    printf("\n %lf° Fahrenheit is %lf° Celcius. \n\n", fahrenheit, celcius);
+    printf("\n%lf° Fahrenheit is %lf° Celcius. \n\n", fahrenheit, celcius);
     return 0;
 }
 
-// Cuando las variables solo se van a usar una vez, la mejor práctica de programación es inicializarlas dentro de la función que las utiliza.
+// NOTE: When variables are going to be use only once, the best programming practice is initialize them inside the functions that uses them

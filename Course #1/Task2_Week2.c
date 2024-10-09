@@ -10,7 +10,7 @@
 #define MY_PI 3.1415926535897932384
 
 
-/** Funcion principal*/
+/** Main function */
 int main (void) {
     // Initialize variables
     double value = 0.0;
@@ -19,7 +19,8 @@ int main (void) {
     printf("Please, input a value between 0 and 2*PI to calculate the sine: ");
     scanf("%lf", &value);
     if(value >= 0 && value <= 2*MY_PI){
-        sine_value = sin(value); // This sine use the arguments value in radians
+        // This sine receives the argument value in radians
+        sine_value = sin(value); 
         printf("Sine(%lf) = %lf\n", value, sine_value);
     }
     else{

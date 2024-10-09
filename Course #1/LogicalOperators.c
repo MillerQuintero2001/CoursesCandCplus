@@ -8,9 +8,9 @@
 #include <stdio.h>
 int main(){
     int outside, wheather;
-    printf("\nEnter if outside 1 true 0 false:");
+    printf("\nEnter if outside 1 true 0 false: ");
     scanf("%d", &outside);
-    printf("\nEnter if rain 1 true 0 false:");
+    printf("\nEnter if rain 1 true 0 false: ");
     scanf("%d", &wheather);
     if(outside && wheather){
         printf("\nPlease use an umbrella. \n");

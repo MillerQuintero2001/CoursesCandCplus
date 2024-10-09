@@ -10,8 +10,8 @@ int main()
 {
     int a = 8, b = 9, c = 6; //Initialize
     float average = 0.0;
-    printf("a = %d, b = %d, c = %d \n", a,b,c);
+    printf("a = %d, b = %d, c = %d\n", a,b,c);
     average = (float)(a +b +c) / 3; // That's my first cast variable
-    printf("Average = %f \n", average);
+    printf("Average = %f\n", average);
     return 0;
 }

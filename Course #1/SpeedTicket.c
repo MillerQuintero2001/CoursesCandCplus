@@ -9,7 +9,7 @@
 
 int main(void){
     int speed;
-    printf("\nPlease, enter your speed as an integer:");
+    printf("Please, enter your speed as an integer: ");
     scanf("%d", &speed);
     if(speed < 65){
         printf("\nNo speeding a ticket\n\n");

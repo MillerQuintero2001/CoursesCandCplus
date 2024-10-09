@@ -7,17 +7,14 @@
 #include <stdio.h>
 
 
-/* En este programa se usa el operador ternario de evaluador condicional anidado dentro de otro
- * esto permite englobar todos los rangos de valores en 3 números que determinan el caso, y así
- al pasar el switch case tenemos todo mucho más directo, así pues la idea valiosa es englobar varios
- posibles valores en un rango en un solo valor que representa el rango, y utilizarlo para las demás 
- acciones del programa
-*/
+/* This program uses ternary operator with nesting, this allow cover all range values in only 3 numbers to determine the case, so, when it
+ * enters to the switch-case, we have everything more direct. So the valuable idea is to encompass several possible values ​​in a range into a 
+ * single value that represents the range, and use it for the other actions of the program. */
 int main(void){
     int speed;
-    printf("\nEnter your speed as an integer:");
+    printf("Enter your speed as an integer: ");
     scanf("%d", &speed);
-    // Operador condicional anidado dentro de otro
+    // Ternary operator nested within another
     speed = (speed <= 65)? (65):((speed <= 70)? (70):(90));
     switch (speed)
     {
@@ -35,7 +32,7 @@ int main(void){
 
     default:
         printf("\nIncorrect speed \n\n");
-        break; // El break del default no es necesario ya que es la última sentencia del switch-case, pero es buena práctica
+        break; // This 'break' isn't necessary, due to this is the last switch-case sentence, but is a good practice write it
     }
     return 0;
 }

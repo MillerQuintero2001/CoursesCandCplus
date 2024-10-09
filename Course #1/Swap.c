@@ -7,10 +7,11 @@
 
 #include <stdio.h>
 
+/* Functions proto-types declarations */
 void swap_no_change(int i, int j);
 void swap_change(int* i, int* j);
 void swap_global_change(void);
-int k, l;
+int ag, bg;
 
 int main(void){
     int a, b;
@@ -19,14 +20,14 @@ int main(void){
     scanf("%d", &a);
     printf("Second: ");
     scanf("%d", &b);
-    k = a;
-    l = b;
+    ag = a;
+    bg = b;
 
     printf("Ok, we have a = %d and b = %d, let's aplicate swap_no_change function.\n", a, b);
     swap_no_change(a,b);
-    printf("We have: a = %d and b = %d, because this function is called by value, now let's see global change5.\n", a, b);
+    printf("We have: a = %d and b = %d, because this function is called by value, now let's see with global change function.\n", a, b);
     swap_global_change();
-    printf("Now, a = %d, b = %d, because this function use a global variable.\n", k, l);
+    printf("Now, a = %d, b = %d, because this function use a global variable.\n", ag, bg);
     printf("Right, let's try with swap_change function, a = %d, b = %d.\n", a, b);
     swap_change(&a,&b);
     printf("Now, a = %d, b = %d, because this function is called by reference.\n", a, b);
@@ -41,17 +42,17 @@ void swap_no_change(int i, int j){
 }
 
 void swap_change(int* i, int* j){
-    // Variable temporal, toma el valor al que apunta el puntero 'i'
+    // Temporal variable, it takes the value that 'i' pointer pointers
     int temp = *i;
-    /*Asignamos al puntero 'i' el valor del puntero 'j', para indicar 
-    que es el valor toca usar operador de desreferencia (*) para ambos*/ 
+    /* Assigment of 'j' pointer value to the 'i' pointer value, to achieve that
+    is necessary use dereference operator '*' for both */ 
     *i = *j;
-    // Asignamos como valor al que apunta 'j' el temporal guardado anteriormente
+    // Now, assign the temp variable value to 'j' pointer value
     *j = temp;
 }
 
 void swap_global_change(void){
-    int temp = k;
-    k = l;
-    l = temp;   
+    int temp = ag;
+    ag = bg;
+    bg = temp;   
 }

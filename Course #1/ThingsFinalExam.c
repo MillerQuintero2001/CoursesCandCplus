@@ -1,8 +1,17 @@
+/** 
+ * Author: Miller Quintero
+ * Date: May 6, 2023
+ * Program: Program to check some questions about final exam
+*/
+
 #include <stdio.h>
 
+/* Functions proto-types declarations */
 int function(int num);
 int foobar(int * n);
 int mystery(int p, int q);
+
+/** Main function */
 int main(void){
     int a = 1, b = 2, c = 3;
     printf("b = %d\n", b);
@@ -11,8 +20,10 @@ int main(void){
     printf("%d yes",function(a));
     printf("\nHELLO\t\tWORLD\n");
     int r = 3%4;
-    printf("\n\n\n %d \n", r);
+    printf("\n %d \n", r);
+    printf("%d\n", mystery(2,7));
     return 0;
+    
 }
 
 int function(int num){

@@ -12,7 +12,7 @@ int main(void){
     scanf("%d", &repeat);
     printf("\nI love you very");
     while(repeat > 0){
-        printf("\n very");
+        printf("\nvery");
         repeat--;
     };
     printf(" much.\n\n");

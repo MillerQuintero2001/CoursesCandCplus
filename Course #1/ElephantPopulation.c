@@ -8,7 +8,7 @@
 // Include importants libraries
 #include <stdio.h>      // Library for standard inputs and outputs
 #include <stdint.h>     // Library of standard integers, to have better memory control
-#include <stdbool.h>    // LIbrary of standard boolean, to can declare boolean variables
+#include <stdbool.h>    // Library of standard boolean, to can declare boolean variables
 
 /* Definition of proto-types functions */
 bool readData(char* strPath, uint32_t arraySave[], uint16_t size);
@@ -44,7 +44,7 @@ int main(void){
 /** Function that reads the .txt file, and saves the data in an array based on size*/
 bool readData(char* strPath, uint32_t arraySave[], uint16_t size){
     // Variable to store the read value
-    uint32_t value;  
+    uint16_t value;  
     // Variable to store the value of the index    
     uint16_t i = 0;
     // Open file using PC path specified as string
@@ -56,7 +56,7 @@ bool readData(char* strPath, uint32_t arraySave[], uint16_t size){
     }
     // Else, save the values in the array
     else{
-        while((fscanf(file, "%u", &value) == 1) && (i < size)){
+        while((fscanf(file, "%hu", &value) == 1) && (i < size)){
             arraySave[i] = value;
             i++;
         }
@@ -69,10 +69,8 @@ bool readData(char* strPath, uint32_t arraySave[], uint16_t size){
 /** Function that receives an array of integers and calculates the average value, based on the size of the array.*/
 double calculateAverage(uint32_t arrayData[], uint16_t size){
     uint32_t sum = 0;
-    double average;
     for(uint16_t i = 0; i < size; i++){
         sum += arrayData[i];
     }
-    average = (double)sum / size;
-    return average;
+    return (double)sum / (double)size;
 }

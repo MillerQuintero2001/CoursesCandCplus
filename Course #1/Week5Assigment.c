@@ -8,7 +8,7 @@
 // Include importants libraries
 #include <stdio.h>      // Library for standard inputs and outputs
 #include <stdint.h>     // Library of standard integers, to have better memory control
-#include <stdbool.h>    // LIbrary of standard boolean, to can declare boolean variables
+#include <stdbool.h>    // Library of standard boolean, to can declare boolean variables
 
 /* Definition of proto-types functions */
 bool readData(char* strPath, uint32_t arraySave[], uint16_t size);

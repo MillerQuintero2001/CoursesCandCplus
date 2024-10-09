@@ -7,15 +7,17 @@
 
 #include <stdio.h>
 
-
-void f(void);   // Prototipo de función
-int reps = 1; // Originalmente se declaraba como extern int, pero esto es solo cuando se usa una variable de otro archivo
-
+/* Function proto-type definition */
+void f(void);   
+// Originally this variable was declared as extern int, but this is only when a variable from another archive is used
+int reps = 1; 
 
 
 int main(void){
-    auto int i = 1;         // El almacenamiento automático es el que tiene por defecto cualquier variable declarada de forma simple en C
-    const int Limit = 10;   // Este tipo de almacenamiento, como lo dice, deja el valor constante, solo puede ser leído pero no operado
+    // Automatic storage is the storage by default of any variable declared in a simple way in C
+    auto int i = 1;
+    // Constant stoarage, keeps the variable's value conbstant, it can be read and use, but not changed         
+    const int Limit = 10;
     for( i = 1; i < Limit; i++){
         printf("i local = %d, reps global = %d\n", i, reps);
         f();
@@ -24,7 +26,9 @@ int main(void){
 }
 
 void f(void){
-    static int called = 1;  // Útil para funciones, el almacenamiento tipo estático, mantiene su valor entre llamadas de la función
+    /* Static keyword is useful for functions, to keep his value between calls, which means no matter 
+    the explicit declaration of 'static int called = 1', the variable receive a global variable treatment */
+    static int called = 1;
     printf("f called #%d\n", called);
     called++;
     reps = reps + called;

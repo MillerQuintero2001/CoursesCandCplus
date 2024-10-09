@@ -6,15 +6,15 @@
 
 #include <stdio.h> // Pre-proccesing command
 #include <math.h>
-#define PI 3.1415926535897932384
+#define PI 3.1415926535897932384l
 
 int main(void){
 
     double radius;
     printf("Enter radius:"); // The first problem is use ..”.. for string in place of .."..
     scanf("%lf", &radius);
-    /* The second problem is in the next line, we should multiply for PI, and use the format %f or %lf to print the result
+    /* The second problem is in the next line, we should multiply for PI, and use the format %Lf to print the result
     in the original code, the format used was %d */
-    printf("volume is : %lf \n", 4*PI*pow(radius,3)/3);
+    printf("volume is : %.15Lf \n", 4.0l*PI*powl(radius,3.0l)/3.0l);
     return 0;
 }

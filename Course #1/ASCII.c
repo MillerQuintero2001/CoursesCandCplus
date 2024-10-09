@@ -6,11 +6,11 @@
 
 #include <stdio.h> // Pre-proccesing command
 
-/** Funcion principal*/
+/** Main function */
 int main (void){
-    // Inicializo variables
+    // Initialize variables
     char c = 'a';
-    //Tareas    
+    // Tasks    
      printf("The character 'a' in ASCII is %d \n",c);
      printf("The character in the program is '%c' \n", c);
      printf("The three consecutives characters are: %c%c%c \n",c,c+1,c+2);
