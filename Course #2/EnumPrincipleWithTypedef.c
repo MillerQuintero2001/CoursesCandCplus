@@ -11,10 +11,10 @@
 typedef enum {
     SUN,MON,TUE,WED,THU,FRI,SAT}
     day;
-// enum day{SUN,MON,TUE,WED,THU,FRI,SAT};
-// typedef enum day day;
+/*  enum day{SUN,MON,TUE,WED,THU,FRI,SAT};
+ typedef enum day day; */
 
-/* Proto-types of functions */
+/* Definition of prototypes functions */
 void printDay(day);
 day nextDay(day);
 

@@ -16,14 +16,14 @@ int main(void){
     c1.pips = 7;
     c1.suit = 'H';
     printf("Tha card number is %u of the suit %c\n", c1.pips, c1.suit);
-    // Ahora con puntero
+    // Now with the pointer
     card* ptrCard1 = &c1;
     ptrCard1->pips = 8;
     ptrCard1->suit = 'S';
     printf("Tha card number changed by using pointer is %u of the suit %c\n", c1.pips, c1.suit);
-    //Es necesario usar () porque el operador de acceso a miembros de estructura . tiene mayor precedencia que el de desreferenciación *
+    // Is necessary use () because the operator to access structure members '.' have a greater precendence than dereference operator '*'
     (*ptrCard1).pips = 10;
     (*ptrCard1).suit = 'C';
-    printf("Tha card number changed by using desreferenced pointer is %u of the suit %c\n", ptrCard1->pips, ptrCard1->suit);
+    printf("Tha card number changed by using dereferencing pointer is %u of the suit %c\n", ptrCard1->pips, ptrCard1->suit);
     return 0;
 }

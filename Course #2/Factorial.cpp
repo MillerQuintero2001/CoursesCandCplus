@@ -6,9 +6,10 @@
 */
 #include <iostream>
 using namespace :: std;
+// inline instruction is an optimization indication for the compiler
+unsigned long factorial(unsigned int n);
 
-inline unsigned long factorial(unsigned int n);
-
+/** Main function */
 int main(void) {
     unsigned short until;
     cout << "Input until what factorial will be printed: ";

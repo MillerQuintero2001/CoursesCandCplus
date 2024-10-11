@@ -25,25 +25,29 @@ typedef struct list{
     struct list* next; // To can define a point to the structure itself, is necessary write struct tagName
 }list;
 
-/* Header proto-types functions */
+/* Functions Proto-types */
 void fillArrayData(int* array, uint16_t size);
 void printArrayData(int* array, uint16_t size);
-void printList(list* ADT, char* title);
+void printList(list* l, char* title);
 list* createList(int d);
 list* addList(list* h, int d);
-list* arrayToList(uint16_t* array, uint16_t size);
+list* arrayToList(int* array, uint16_t size);
 bool isEmpty(const list* l);
 
 int main(void){
     uint16_t size;
-    printf("Write how many elements should have the list to convert in ADT, no much more than 65535: ");
-    scanf("%hu", &size);
+    do{
+        printf("Write how many elements should have the list to convert in ADT, no much more than 60000: ");
+        scanf("%hu", &size);
+    }
+    while(size > 60000);
+    
     // Assign dynamic memory for the custom size array
     int* array = malloc(sizeof(int)*size);
 
     // Pseudo-random seed to generate numbers
     srand(time(NULL));
-    // Fill and print the array with the pseudo-random data
+    // Fill and print the array
     fillArrayData(array, size);
     printArrayData(array,size);
 
@@ -53,8 +57,12 @@ int main(void){
     for(uint16_t i = 1; i < size; i++){
         head = addList(head,*(array+i));
     }
+ 
+    printList(head, "Simple print list function.\n");
 
-    printList(head, "\nThe full list is:");
+    /* This function is working correctly */
+    // list * head = arrayToList(array, size);
+    // printList(arrayToList(array, size), "\nThe full list is:");
 
     /* Let's free the heap memory, isn't really necessary in this case, 
     because always at the end of a program, the system free it automatically */
@@ -69,7 +77,7 @@ void fillArrayData(int* array, uint16_t size){
     for(uint16_t j = 0; j < size; j++){
         // Module the pseudo-random value, to get something in the correct range of 16 bits
         // The rand function only generates positive integers, for that reason we sum the same sentence to have some negatives
-        *(array+j) = rand()%(uint16_t)(pow(2,16)-1) - (rand()%(uint16_t)(pow(2,16)-1));    
+        *(array+j) = rand()%(uint16_t)(pow(2.0,16.0)-1) - (rand()%(uint16_t)(pow(2.0,16.0)-1.0));    
     }
 }
 
@@ -84,12 +92,12 @@ void printArrayData(int* array, uint16_t size){
 }
 
 /** Functions that prints the list ADT */
-void printList(list* ADT, char* title){
+void printList(list* l, char* title){
     printf("%s\n", title);
     // This is equivalent to write ADT != NULL
     uint16_t c = 1;
-    while(!isEmpty(ADT)){
-        printf("%d\t", ADT->data);
+    while(!isEmpty(l)){
+        printf("%d\t", l->data);
         if(c%10 == 0){
             printf("\n");
         }
@@ -97,7 +105,7 @@ void printList(list* ADT, char* title){
             ; //Nop action
         }
         // This is so important, to get the next list element
-        ADT = ADT->next;
+        l = l->next;
         c++;
     }
 }
@@ -110,7 +118,7 @@ list* createList(int d){
     return head;
 }
 
-/** Funtion to add elements to the list (the order is inverted)*/
+/** Function to add elements to the list (the order is inverted)*/
 list* addList(list* l, int d){
     list* h = createList(d);
     h->next = l;
@@ -118,12 +126,12 @@ list* addList(list* l, int d){
 }
 
 /** Function responsible for copying the elements of the array to the list (the order is inverted by addList function)*/
-list* arrayToList(uint16_t* array, uint16_t size){
-    list* head = createList(*(array));
+list* arrayToList(int* array, uint16_t size){
+    list* h = createList(*(array));
     for(uint16_t k = 1; k < size; k++){
-        head = addList(head,*(array+k));
+        h = addList(h,*(array+k));
     }
-    return head;
+    return h;
 }
 
 /** Function that checks if the list is already empty */

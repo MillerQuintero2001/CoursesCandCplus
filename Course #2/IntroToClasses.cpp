@@ -21,6 +21,7 @@ class rectangle{
         double height,width;
 };
 
+/** Main function */
 int main(void){
     // Here, the object is created
     rectangle r(2.5,2.1);

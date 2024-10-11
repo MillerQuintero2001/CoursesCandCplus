@@ -9,7 +9,7 @@
 
 enum day {SUN,MON,TUE,WED,THU,FRI,SAT};
 
-/* Proto-types of functions */
+/* Function Proto-types */
 void printDay(enum day dayOfWeek);
 enum day nextDay(enum day dayOfWeek);
 

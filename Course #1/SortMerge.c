@@ -11,93 +11,95 @@
 #include <stdlib.h>     // Library standard of C with a lot of functions
 #include <time.h>       // Library of time, to obtain real time compilation
 
-/* Definition of prototypes functions */
+/* Definition of function prototypes */
 void printArray(uint16_t size, uint16_t array[],  char* str);
 void swap(uint16_t* i, uint16_t* j);
 void bubbleSort(uint16_t size, uint16_t array[]);
-void mergeSort(uint16_t size, uint16_t array1[], uint16_t array2[], uint16_t arrayFinal[]);
+void mergeSort(uint16_t sizeSource1, uint16_t sizeSource2, uint16_t sizeDest, uint16_t array1[], uint16_t array2[], uint16_t arrayDest[]);
 
-/* Macro-definitions */
-#define SIZE 512
-
+/** Main function */
 int main(void){
-    uint16_t grades[SIZE*2];
-    uint16_t grades1[SIZE];
-    uint16_t grades2[SIZE];
-    int i;
-    srand(time(NULL)); // Semilla generadora de números pseudo-aleatorios
-    /* Rellenamos las listas de notas con enteros aleatorios*/
-    for(i = 0; i < SIZE*2; i++){
+    uint16_t size1, size2;
+    printf("How many elements do you want in the first array? ");
+    while ((scanf("%hu", &size1) != 1)){
+        printf("Invalid input for the first array size.\n");
+    }
+
+    printf("How many elements do you want in the second array? ");
+    while ((scanf("%hu", &size2) != 1)){
+        printf("Invalid input for the second array size.\n");
+    }
+    uint16_t grades1[size1];
+    uint16_t grades2[size2];
+    uint16_t grades[size1 + size2];
+    // Pseudo-random seed generator
+    srand(time(NULL));
+    // Fill grades array with pseudo-random integers
+    for(uint16_t i = 0; i < size1 + size2; i++){
         grades[i] = (uint16_t)abs(rand()%100 + 1);
     }
-    /* Dividimos el arreglo en dos mitades, usamos la funcion memcpy, que nos permite 
-    a un arreglo destino asignarle elementos de un arreglo fuente, especificando el
-    puntero desde donde se va a hacer, y con el tamaño en memoria que tendrá el arreglo
-    destino, se indica a la vez toda la longitud del arreglo */
-    memcpy(grades1, grades, SIZE*sizeof(int)); 
-    memcpy(grades2, grades + SIZE, SIZE*sizeof(int)); 
+    /* Split the array in two halfs, memcpy function is going to be used, that allows
+    take a source array and copy elements from it to a destiny source, specifing the
+    pointers, and with the size in memory that the destiny array will
+    have, the array length will be assign at the same time */
+    memcpy(grades1, grades, size1*sizeof(uint16_t)); 
+    memcpy(grades2, grades + size1, size2*sizeof(uint16_t)); 
+    // Before send the 2 list to the merge sort function, is necessary sort it with bubble sort function
+    bubbleSort(size1, grades1);
+    bubbleSort(size2, grades2);
 
-    // Antes que enviar las 2 listas para la función Merge, las organizamos con Bubble
-    bubbleSort(SIZE, grades1);
-    bubbleSort(SIZE, grades2);
-
-    // Aplicamos ahora si el algoritmo de Merge Sort
-    mergeSort(SIZE, grades1, grades2, grades);
-    printArray(SIZE*2, grades, "My sort grades are: \n");
+    // Now, it's time to apply merge sort algorithm
+    mergeSort(size1, size2, size1+size2, grades1, grades2, grades);
+    printArray(size1+size2, grades, "My sort grades are:\n");
     return 0;
 }
-
 
 void printArray(uint16_t size, uint16_t array[], char* str){
     printf("%s", str);
     for(uint16_t j = 0; j < size; j++){
-        printf("%u\t", array[j]);
+        printf("%hu\t", array[j]);
         if((j+1)%10 == 0){
             printf("\n");
         }
     }
 }
 
-
 void swap(uint16_t* i, uint16_t* j){
-    // Variable temporal, toma el valor al que apunta el puntero 'i'
+    // Temporary variable that copies the value pointed by the pointer 'i'
     uint16_t temp = *i;
-    /*Asignamos al puntero 'i' el valor del puntero 'j', para indicar 
-    que es el valor toca usar operador de desreferencia (*) para ambos*/ 
+    /* Assign pointer 'i' the value pointed by 'j' pointer. To indicate that 
+    this is the value, is necessary use dereference operator for both*/
     *i = *j;
-    // Asignamos como valor al que apunta 'j' el temporal guardado anteriormente
+    // Assign as value pointed by 'j' pointer, the temporal value saved previously
     *j = temp;
 }
 
 void bubbleSort(uint16_t size, uint16_t array[]){
-    /*Implementamos una variable bandera que indica que 
-    la lista ya está ordenada y por tanto no hay seguir
-    gastando tiempo de computación, máxima efectividad */
+    /* Implementation of a flag variable to indicate that the list is 
+    already sorted, and therefore no further computing time needs to 
+    be spent, this is to maximize effectiveness */
     bool flagSort = false;
-    // Contador para el número de veces que no está ocurriendo un intercambio
+    // Counter of times that there is no swap happening
     uint16_t counter = 0;
-    //uint16_t control;
     for(uint16_t k = 0; k < size; k++){
-        //printArray(size, array, "inside bubble\n");
-        //printf("k = %u, Enter any integer to do a simple bubbleSort: ",k);
-        //scanf("%hu", &control);
         for(uint16_t j = size - 1; j > k; j--){
-            /* Antes de cualquier acción, si el contador de posiciones 
-            ordenadas es igual al tamaño menos la posición que se 
-            analiza+2, ya que el máximo indice de la lista es size -1,
-            pero como el último elemento no se le hace swap, por eso -2 */
-            if(counter >= (size - (k+2))){
+            /* Before any action, if the 'counter' of sorted positions is
+            equal to size - k - 1, where k means the analized position, it
+            means that the arrray is already sorted, is necessary sustract -1
+            to avoid one more no necessay iteration, cause the in the next
+            iteration we reach k position in backwards and it's already sorted */
+            if(counter >= (size - k - 1)){
                 flagSort = true;
                 break;
             }
-            /* Si el valor antes de la posición j, es mayor
-            al de j, intercambiamos lugares, para ordenar
-            la lista de menor a mayor */
+            /* If the value previous to 'j' position is greater
+            than 'j' position value, the positions need to be
+            swap, to sort the list from minor to greater */
             else if(array[j-1] > array[j]){
                 swap(&array[j-1], &array[j]);
             }
-            /* De lo contrario, aumentamos en 1 el contador
-            para hacer control de que la lista está ordenada */
+            /* Otherwise, sum 1 to the counter, 
+            to can control of the sorted list */
             else{
                 counter++;
             }
@@ -107,28 +109,23 @@ void bubbleSort(uint16_t size, uint16_t array[]){
             flagSort = false;
             break;
         }
+        else{
+            continue;
+        }
     }
 }
 
-void mergeSort(uint16_t size, uint16_t array1[], uint16_t array2[], uint16_t arrayFinal[]){
-    uint16_t i = 0;
-    uint16_t j = 0;
-    uint16_t k = 0;
-    while((i < size) && (j < size)){
-        if(array1[i] < array2[j]){
-            /*Aquí como estamos usando el post-incremento, primero se hace la acción
-            de los arreglos con esos valores en los indices, y luego se incrementa
-            en uno las variables de indíces contadores */ 
-            arrayFinal[k++] = array1[i++];
-        }
-        else{
-            arrayFinal[k++] = array2[j++];
-        }
+void mergeSort(uint16_t sizeSource1, uint16_t sizeSource2, uint16_t sizeDest, uint16_t array1[], uint16_t array2[], uint16_t arrayDest[]){
+    uint16_t i = 0, j = 0, k = 0;
+    while((i < sizeSource1) && (j < sizeSource2)){
+        /* Here we are using the ternary operator and post-increment. First check the condition, 
+        then do the assignment, and finllay plus 1 to the corresponding counter index */
+        arrayDest[k++] = (array1[i] < array2[j]) ? (array1[i++]):(array2[j++]);
     }
-    while(i < size){
-        arrayFinal[k++] = array1[i++];
+    while(i < sizeSource1){
+        arrayDest[k++] = array1[i++];
     }
-    while(j < size){
-        arrayFinal[k++] = array2[j++];
+    while(j < sizeSource2){
+        arrayDest[k++] = array2[j++];
     }
 }

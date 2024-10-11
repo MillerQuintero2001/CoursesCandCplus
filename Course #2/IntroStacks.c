@@ -18,10 +18,10 @@ typedef struct{
     int16_t top; // Use a signed integer because EMPTY is -1, this must be so because in an array, the first element is at the index 0
 }stack_t;
 
-/* Proto-types of functions */
+/* Functions Proto-types */
 void push(char c, stack_t* dataStack);
 char pop(stack_t* dataStack);
-void reset(stack_t* dataStack, uint16_t topStack);
+void reset(stack_t* dataStack);
 bool isStackEmpty(stack_t* dataStack);
 bool isStackFull(stack_t* dataStack);
 
@@ -37,7 +37,7 @@ int main(void){
     printf("Original message is: %s\n", str);
 
     // The first thing that we gonna do is reset the array into the stack structure
-    reset(&stringStack, MAX_LEN);
+    reset(&stringStack);
 
     // Now, is time to save the characters into the stack
     uint8_t k = 0;
@@ -51,13 +51,12 @@ int main(void){
     k = 0;
 
     // Finally we put one by one in the inverted order
-    uint16_t indexToReset = stringStack.top;
     while(!isStackEmpty(&stringStack)){
         *(strBack+(k++)) = pop(&stringStack);
     }
     printf("Inverted message is: %s\n", strBack);
     // Reset the stack
-    reset(&stringStack, indexToReset);
+    reset(&stringStack);
     return 0;
 }
 
@@ -67,13 +66,10 @@ void push(char c, stack_t* dataStack){
 }
 
 char pop(stack_t* dataStack){
-    return*(dataStack->charStack+dataStack->top--);
+    return(*(dataStack->charStack+dataStack->top--));
 }
 
-void reset(stack_t* dataStack, uint16_t topStack){
-    for(uint16_t i = 0; i <= topStack; i++){
-        *(dataStack->charStack+i) = '\0';
-    }
+void reset(stack_t* dataStack){
     dataStack->top = EMPTY;
 }
 

@@ -13,6 +13,7 @@
         "ctype.h": "c",
         "iostream": "cpp",
         "ostream": "cpp",
-        "assert.h": "c"
+        "assert.h": "c",
+        "string.h": "c"
     }
 }

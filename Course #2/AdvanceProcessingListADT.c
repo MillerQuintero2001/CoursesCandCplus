@@ -23,13 +23,13 @@
 
 typedef struct list{
     int data;
-    struct list* next; // To can define a pointer to the structure itself, is necessary write struct tagName
+    struct list* next; // To can define a pointer to the structure itself, is necessary write "struct 'tagName'"
 }list;
 
 /* Header proto-types functions */
 void fillArrayData(int* array, uint16_t size);
 void printArrayData(int* array,uint16_t size);
-void printList(list* ADT, const char* title);
+void printList(list* l, const char* title);
 list* createList(int d);
 list* addToFrontList(list* h, int d);
 list* arrayToList(int* array, uint16_t size);
@@ -89,9 +89,10 @@ int main(void){
     because always at the end of a program, the system free it automatically */
     free(l1);
     free(l2);
-    /* If we try to free the list 3, the program will be abort, because this would be a double free
+    /* IMPORTANT: If we try to free the list 3, the program will be abort, because this would be a double free
     due to the list 3 have the same pointer of the list 2, and this list was already free */
     //free(l3);
+    
     free(array1);
     free(array2);
 
@@ -118,12 +119,12 @@ void printArrayData(int* array,uint16_t size){
 }
 
 /** Functions that prints the list ADT */
-void printList(list* ADT, const char* title){
+void printList(list* l, const char* title){
     printf("%s\n", title);
     // This is equivalent to write ADT != NULL
     uint16_t c = 1;
-    while(!isEmpty(ADT)){
-        printf("%d\t", ADT->data);
+    while(!isEmpty(l)){
+        printf("%d\t", l->data);
         if(c%10 == 0){
             printf("\n");
         }
@@ -131,7 +132,7 @@ void printList(list* ADT, const char* title){
             ; //Nop action
         }
         // This is so important
-        ADT = ADT->next;
+        l = l->next;
         c++;
     }
 }
@@ -180,7 +181,6 @@ void concatenateList(list** h1, list** h2){
     if(isEmpty((*h1))){
         // If since the beginning is empty, simplily h1 is the same pointer h2
         *h1 = *h2;                                  
-        printf("The first argument list is empty, so now, the first list is equal to second list.\n");
     }
     else if((*h1)->next == NULL){
         (*h1)->next = *h2;     

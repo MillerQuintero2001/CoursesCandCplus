@@ -26,7 +26,7 @@ int main(void){
     // Neccesary declaration for the macrodefinition FILL
     int i; 
     // Array init necessary for the FILL macro
-    int data[POPULATION] = {0};
+    int data[1000] = {0};
     // Generator seed, based on current time, we can use 0 or NULL
     srand(time(0)); 
     // All previous declaration are neccesary with the exact name to make FILL macro works correctly

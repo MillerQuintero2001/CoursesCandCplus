@@ -16,7 +16,7 @@ int main(void) {
     while(miles != 0){
         cout << "Input distance in milles, must be different from 0, or the program will end: ";
         cin >> miles;
-        cout << "\nThe miles in kilometers are " << convert(miles) <<" km." << endl;
+        cout << endl << "The miles in kilometers are " << convert(miles) <<" km." << endl;
     }
     cout << endl;
     return 0;
