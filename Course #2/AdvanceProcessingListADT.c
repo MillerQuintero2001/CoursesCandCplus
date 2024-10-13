@@ -26,7 +26,7 @@ typedef struct list{
     struct list* next; // To can define a pointer to the structure itself, is necessary write "struct 'tagName'"
 }list;
 
-/* Header proto-types functions */
+/* Functions Proto-types */
 void fillArrayData(int* array, uint16_t size);
 void printArrayData(int* array,uint16_t size);
 void printList(list* l, const char* title);
@@ -38,6 +38,7 @@ uint16_t counterList(list* l);
 void concatenateList(list** h1, list** h2);
 void insertInsideList(list* p1, list* p2, list* element);
 
+/** Main function */
 int main(void){
     uint16_t size1;
     uint16_t size2;
