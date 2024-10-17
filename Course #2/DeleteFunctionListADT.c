@@ -37,10 +37,16 @@ void deleteFullList(list** h);
 int main(void){
     uint16_t size1;
     uint16_t size2;
-    printf("Write how many elements should have the list 1 to convert in ADT, no much more than 65535: ");
-    scanf("%hu", &size1);
-    printf("Now, write how many elements should have the list 2 to convert in ADT, no much more than 65535: ");
-    scanf("%hu", &size2);
+    do{
+        printf("Write how many elements should have the list 1 to convert in ADT, no more than 1000: ");
+        scanf("%hu", &size1);
+    } while(size1 > 1000);
+    
+    do{
+        printf("Now, write how many elements should have the list 2 to convert in ADT, no more than 1000: ");
+        scanf("%hu", &size2);
+    } while(size2 > 1000);
+    
     // Assign dynamic memory for the custom size array
     int* array1 = (int*)malloc(sizeof(int)*size1);
     int* array2 = (int*)malloc(sizeof(int)*size2);
@@ -73,13 +79,11 @@ int main(void){
     printList(h1, "\nThe list 1 after delete the next element to h2->next is:");
     printf("\n");
 
-    // deleteFullList(&h2);
-    // printList(h2, "\nThe list 2 all delete is:");
 
     /* NOTE: We can't delete full list h2 and print h1 after, because the reference has lost, we should
     go to the end of the h1 and asiggn NULL to the next element*/
     deleteFullList(&h1);
-    printList(h1, "\nAnd the list 1 all delete is:");
+    printList(h1, "\nAnd the list 1 all deleted is:");
     printf("h1 #elements is: %u.\n", counterList(h1));
 
     return 0;
@@ -197,10 +201,6 @@ void deleteElementList(list* elem, list** prev, list** h){
     // If the previous element is NULL, is because this is the head
     if((prev == NULL)||(*prev == NULL)){
         *h = elem->next;
-    }
-    // Check if the previous list element is the head (this is the specific case for 2th element)
-    else if(*h == *prev){
-        (*h)->next = elem->next;
     }
     else{
         (*prev)->next = elem->next;

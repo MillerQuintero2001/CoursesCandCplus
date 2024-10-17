@@ -42,10 +42,15 @@ void insertInsideList(list* p1, list* p2, list* element);
 int main(void){
     uint16_t size1;
     uint16_t size2;
-    printf("Write how many elements should have the list 1 to convert in ADT, no much more than 65535: ");
-    scanf("%hu", &size1);
-    printf("Now, write how many elements should have the list 2 to convert in ADT, no much more than 65535: ");
-    scanf("%hu", &size2);
+    do{
+        printf("Write how many elements should have the list 1 to convert in ADT, no more than 1000: ");
+        scanf("%hu", &size1);
+    } while(size1 > 1000);
+    
+    do{
+        printf("Now, write how many elements should have the list 2 to convert in ADT, no more than 1000: ");
+        scanf("%hu", &size2);
+    } while(size2 > 1000);
     // Assign dynamic memory for the custom size array
     int* array1 = malloc(sizeof(int)*size1);
     int* array2 = malloc(sizeof(int)*size2);
@@ -167,7 +172,7 @@ bool isEmpty(const list* l){
     return (bool)(l==NULL);
 }   
 
-/** Function that returns the amount of data on the ADT List */
+/** Function that returns the amount of data on the list */
 uint16_t counterList(list* l){
     if(isEmpty(l)){
         return 0;

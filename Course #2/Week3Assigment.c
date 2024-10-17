@@ -20,10 +20,9 @@ typedef struct list{
 }list;
 
 /* Definition of prototypes functions */
-void printList(list* ADT, const char* title);
+void printList(list* l, const char* title);
 list* createList(int16_t d);
 list* addList(list* l, int16_t d);
-list* arrayToList(int* array, int16_t size);
 bool isEmpty(const list* l);
 uint16_t counterList(list* l);
 void swapElementsList(list* l1, list* l2);
@@ -34,8 +33,8 @@ int main(void){
     // Pseudo-random seed generator
     srand(time(NULL));
 
-    clock_t inicio, fin;
-    double tiempo = 0.0f;
+    clock_t start, end;
+    double time = 0.0f;
 
     // Create the list with the first random number
     list* list100data = createList(RANDOM_NUMBER);
@@ -48,12 +47,12 @@ int main(void){
     // Now with the data generated, we are going to sort the list by bubble sort
     printList(list100data, "This is the list before sort:\n");
 
-    inicio = clock();
+    start = clock();
     bubbleSort(list100data);
-    fin = clock();
-    tiempo = (double)(fin-inicio)/CLOCKS_PER_SEC;
-    printList(list100data,"This is the list after sort:\n");
-    printf("The bubble sort time was %.10f seconds \n", tiempo);
+    end = clock();
+    time = (double)(end-start)/CLOCKS_PER_SEC;
+    printList(list100data,"\nThis is the list after sort:\n");
+    printf("The bubble sort time was %.10f seconds \n", time);
 
     /* We free the memory used with the list pointer, is a  good practice but isn't really 
     necesarry because it always do autocatically at the end of the program */
@@ -63,12 +62,12 @@ int main(void){
 }
 
 /** Functions that prints the list ADT */
-void printList(list* ADT, const char* title){
-    printf("%s\n", title);
+void printList(list* l, const char* title){
+    printf("%s", title);
     // This is equivalent to write ADT != NULL
     uint16_t c = 1;
-    while(!isEmpty(ADT)){
-        printf("%6d\t", ADT->data);
+    while(!isEmpty(l)){
+        printf("%6d\t", l->data);
         if(c%5 == 0){
             printf("\n");
         }
@@ -76,7 +75,7 @@ void printList(list* ADT, const char* title){
             ; //Nop action
         }
         // This is so important
-        ADT = ADT->next;
+        l = l->next;
         c++;
     }
 }
@@ -120,10 +119,15 @@ void swapElementsList(list* l1, list* l2){
 
 /** Function that sorts the ADT list from the smallest to bigest number */
 void bubbleSort(list* l){
-    // Save the list pointer
+    // Save the first list pointer
     list* currentP = l;
-    for(uint8_t j = 0; j < counterList(l); j++){
-        while(!isEmpty(l->next)){
+    uint16_t size = counterList(l);
+    /* The necessay cycles to sort a list, is equal to n-1, because
+    and the end of each cycle, the result is one element sorted */
+    for(uint16_t j = size - 1; j > 0; j--){
+        /* This loop starts from the beginning of the list and ends in 'j' because in every cycle
+        we have one sorted element, that means a less element to analize in the next loop */
+        for(uint16_t k = 0; k < j; k++){
             if(l->data > l->next->data){
                 swapElementsList(l, l->next);
             }
