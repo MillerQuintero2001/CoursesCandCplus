@@ -12,9 +12,10 @@
 #include <math.h>       // Library with basic math functions
 #include <errno.h>      // Library to can access and use 'errno' variable for 'perror' function
 
-#define MAX_VALUE       10
-#define RANDOM          (int8_t)((rand()%MAX_VALUE) + 1)
-
+// Due to the first value in the input file indicates how many data read, this is constraint to maximum 10 values
+#define MAX_VALUE_FIRST         10
+// MAX_VALUE indicates the maximum value that the other numbers could have
+#define MAX_VALUE               50
 
 /* Function prototypes */
 void generateFileWithIntegers(const char* newFileName);
@@ -26,7 +27,7 @@ int main(void){
     srand(time(NULL));
 
     // Receiving the name of the new file
-    printf("Type the name you want for the file: ");
+    printf("Type the name you want for the input file, an archive with random integers will be generated: ");
     uint8_t index = 0;
     char bufferName[64] = {0};
     char input = 0;
@@ -46,6 +47,7 @@ int main(void){
     return 0;
 }
 
+/** Function that generate a file with random integers */
 void generateFileWithIntegers(const char* newFileName){
     FILE* ptrFile = fopen(newFileName, "w");
     if(ptrFile == NULL){
@@ -54,9 +56,12 @@ void generateFileWithIntegers(const char* newFileName){
     }
     rewind(ptrFile);
 
-    // Writing the numbers in the archive
-    for(uint8_t i = 0; i <= MAX_VALUE; i++){
-        fprintf(ptrFile,"%hhd ", RANDOM*(int8_t)pow(-1.0, RANDOM));
+    int8_t numberOfData = (int8_t)(((rand()%MAX_VALUE_FIRST) + 1)*pow(-1.0, rand()));
+    // First value that indicates number of elements to read
+    fprintf(ptrFile,"%hhd ", numberOfData);
+    // Writing the other numbers in the archive
+    for(uint8_t i = 0; i < abs(numberOfData); i++){
+        fprintf(ptrFile,"%hhd ", (int8_t)(((rand()%MAX_VALUE) + 1)*pow(-1.0, rand())));
     }
     fclose(ptrFile);
 }
@@ -72,18 +77,18 @@ void readFileAndCalculate(const char* nameFile){
 
     int8_t size = 0;
     // Temporary value to save data from the file
-    int tempValue = 0;
+    int8_t tempValue = 0;
 
     // The first number in the file indicates the size of the array and must be positive
     fscanf(ptrFile,"%hhd", &size);
     size = abs(size);
-    int8_t *array = (int8_t*)malloc(sizeof(int8_t)*size);
+    int8_t *array = calloc(size, size*sizeof(int8_t));
 
-    uint16_t index = 0;
+    uint8_t index = 0;
     // The for loop runs from 0 to size
-    for(uint16_t i = 0; i < size; i++){
+    for(uint8_t i = 0; i < size; i++){
         // If we have a successful read... (It is neccesary that the condition be fscanf() == 1, to avoid incorrect reads)
-        if(fscanf(ptrFile,"%d",&tempValue) == 1){
+        if(fscanf(ptrFile,"%hhd",&tempValue) == 1){
             *(array+index)= tempValue;
             index++;
         }
@@ -98,8 +103,8 @@ void readFileAndCalculate(const char* nameFile){
     // Initialize the sum as the first element's value, because if we initiliaze it as zero, it will nullify the sum and average
     double sum = (double)(*array);
     int8_t max = (*array);
-    // And sum with the rest of rationals
-    for(uint16_t j = 1; j < size-1; j++){
+    // And sum with the rest of rationals, while searching maximum value
+    for(uint8_t j = 1; j < size; j++){
         sum += *(array+j);
         if(*(array+j) > max){
             max = *(array+j);
